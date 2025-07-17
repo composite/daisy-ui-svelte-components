@@ -32,7 +32,7 @@
 
 <ul class={classes()} {...restProps}>
 	{#each steps as step (step.id)}
-		<li class="step{step.completed ? ` step-${step.color || 'primary'}` : ''}">
+		<li class="step{step.completed ? (step.color === 'neutral' ? ' step-neutral' : step.color === 'primary' ? ' step-primary' : step.color === 'secondary' ? ' step-secondary' : step.color === 'accent' ? ' step-accent' : step.color === 'info' ? ' step-info' : step.color === 'success' ? ' step-success' : step.color === 'warning' ? ' step-warning' : step.color === 'error' ? ' step-error' : ' step-primary') : ''}">
 			{step.label}
 		</li>
 	{/each}

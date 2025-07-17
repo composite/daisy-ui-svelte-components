@@ -37,14 +37,40 @@
 	let classes = $derived(() => {
 		let result = 'btn';
 		
-		if (variant) result += ` btn-${variant}`;
-		if (size) result += ` btn-${size}`;
-		if (style) result += ` btn-${style}`;
-		if (shape) result += ` btn-${shape}`;
+		// Variant classes
+		if (variant === 'neutral') result += ' btn-neutral';
+		if (variant === 'primary') result += ' btn-primary';
+		if (variant === 'secondary') result += ' btn-secondary';
+		if (variant === 'accent') result += ' btn-accent';
+		if (variant === 'info') result += ' btn-info';
+		if (variant === 'success') result += ' btn-success';
+		if (variant === 'warning') result += ' btn-warning';
+		if (variant === 'error') result += ' btn-error';
+		if (variant === 'ghost') result += ' btn-ghost';
+		if (variant === 'link') result += ' btn-link';
+		
+		// Size classes
+		if (size === 'xs') result += ' btn-xs';
+		if (size === 'sm') result += ' btn-sm';
+		if (size === 'md') result += ' btn-md';
+		if (size === 'lg') result += ' btn-lg';
+		if (size === 'xl') result += ' btn-xl';
+		
+		// Style classes
+		if (style === 'outline') result += ' btn-outline';
+		if (style === 'dash') result += ' btn-dash';
+		if (style === 'soft') result += ' btn-soft';
+		
+		// Shape classes
+		if (shape === 'square') result += ' btn-square';
+		if (shape === 'circle') result += ' btn-circle';
+		
+		// State classes
 		if (wide) result += ' btn-wide';
 		if (block) result += ' btn-block';
 		if (active) result += ' btn-active';
 		if (disabled) result += ' btn-disabled';
+		
 		if (className) result += ` ${className}`;
 		
 		return result;

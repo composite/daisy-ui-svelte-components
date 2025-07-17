@@ -37,7 +37,10 @@
 	{#each lines as line}
 		<pre 
 			data-prefix={line.prefix || ''}
-			class="{line.highlight ? 'bg-warning text-warning-content' : ''}{line.textColor ? ` ${line.textColor}` : ''}{line.backgroundColor ? ` ${line.backgroundColor}` : ''}"
+			class:bg-warning={line.highlight}
+			class:text-warning-content={line.highlight}
+			class={line.textColor || ''}
+			style:background-color={line.backgroundColor}
 		><code>{line.content}</code></pre>
 	{/each}
 </div>

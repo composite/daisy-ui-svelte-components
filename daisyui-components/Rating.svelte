@@ -27,7 +27,13 @@
 	let classes = $derived(() => {
 		let result = 'rating';
 		
-		if (size) result += ` rating-${size}`;
+		// Size classes
+		if (size === 'xs') result += ' rating-xs';
+		if (size === 'sm') result += ' rating-sm';
+		if (size === 'md') result += ' rating-md';
+		if (size === 'lg') result += ' rating-lg';
+		if (size === 'xl') result += ' rating-xl';
+		
 		if (half) result += ' rating-half';
 		if (className) result += ` ${className}`;
 		
@@ -35,9 +41,22 @@
 	});
 
 	let radioClasses = $derived(() => {
-		let result = `rating-${variant}`;
+		let result = '';
 		
-		if (color) result += ` rating-${color}`;
+		// Variant classes
+		if (variant === 'star') result += 'rating-star';
+		if (variant === 'heart') result += 'rating-heart';
+		if (variant === 'thumb') result += 'rating-thumb';
+		
+		// Color classes
+		if (color === 'neutral') result += ' rating-neutral';
+		if (color === 'primary') result += ' rating-primary';
+		if (color === 'secondary') result += ' rating-secondary';
+		if (color === 'accent') result += ' rating-accent';
+		if (color === 'info') result += ' rating-info';
+		if (color === 'success') result += ' rating-success';
+		if (color === 'warning') result += ' rating-warning';
+		if (color === 'error') result += ' rating-error';
 		
 		return result;
 	});
@@ -71,7 +90,9 @@
 		<input 
 			type="radio" 
 			name="rating" 
-			class="{radioClasses()}{item.half ? ' rating-half' : ''}{item.hidden ? ' rating-hidden' : ''}"
+			class={radioClasses()}
+			class:rating-half={item.half}
+			class:rating-hidden={item.hidden}
 			checked={value === item.value}
 			disabled={readonly}
 			onchange={() => handleRatingChange(item.value)}

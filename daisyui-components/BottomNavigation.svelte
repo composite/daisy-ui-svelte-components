@@ -28,7 +28,13 @@
 	let classes = $derived(() => {
 		let result = 'btm-nav';
 		
-		if (size) result += ` btm-nav-${size}`;
+		// Size classes
+		if (size === 'xs') result += ' btm-nav-xs';
+		if (size === 'sm') result += ' btm-nav-sm';
+		if (size === 'md') result += ' btm-nav-md';
+		if (size === 'lg') result += ' btm-nav-lg';
+		if (size === 'xl') result += ' btm-nav-xl';
+		
 		if (className) result += ` ${className}`;
 		
 		return result;
@@ -47,7 +53,8 @@
 		{#if item.href}
 			<a 
 				href={item.href}
-				class="{activeItem === item.id ? 'active' : ''}{item.disabled ? ' disabled' : ''}"
+				class:active={activeItem === item.id}
+				class:disabled={item.disabled}
 			>
 				{#if item.icon}
 					{@render item.icon()}
@@ -56,7 +63,8 @@
 			</a>
 		{:else}
 			<button 
-				class="{activeItem === item.id ? 'active' : ''}{item.disabled ? ' disabled' : ''}"
+				class:active={activeItem === item.id}
+				class:disabled={item.disabled}
 				disabled={item.disabled}
 				onclick={() => handleItemClick(item)}
 			>

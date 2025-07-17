@@ -36,8 +36,24 @@
 		let result = 'select';
 		
 		if (ghost) result += ' select-ghost';
-		if (size) result += ` select-${size}`;
-		if (color) result += ` select-${color}`;
+		
+		// Size classes
+		if (size === 'xs') result += ' select-xs';
+		if (size === 'sm') result += ' select-sm';
+		if (size === 'md') result += ' select-md';
+		if (size === 'lg') result += ' select-lg';
+		if (size === 'xl') result += ' select-xl';
+		
+		// Color classes
+		if (color === 'neutral') result += ' select-neutral';
+		if (color === 'primary') result += ' select-primary';
+		if (color === 'secondary') result += ' select-secondary';
+		if (color === 'accent') result += ' select-accent';
+		if (color === 'info') result += ' select-info';
+		if (color === 'success') result += ' select-success';
+		if (color === 'warning') result += ' select-warning';
+		if (color === 'error') result += ' select-error';
+		
 		if (className) result += ` ${className}`;
 		
 		return result;

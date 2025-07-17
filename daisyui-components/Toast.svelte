@@ -25,7 +25,17 @@
 	let classes = $derived(() => {
 		let result = 'toast';
 		
-		if (position) result += ` toast-${position}`;
+		// Position classes
+		if (position === 'top-start') result += ' toast-top-start';
+		if (position === 'top-center') result += ' toast-top-center';
+		if (position === 'top-end') result += ' toast-top-end';
+		if (position === 'middle-start') result += ' toast-middle-start';
+		if (position === 'middle-center') result += ' toast-middle-center';
+		if (position === 'middle-end') result += ' toast-middle-end';
+		if (position === 'bottom-start') result += ' toast-bottom-start';
+		if (position === 'bottom-center') result += ' toast-bottom-center';
+		if (position === 'bottom-end') result += ' toast-bottom-end';
+		
 		if (className) result += ` ${className}`;
 		
 		return result;
@@ -49,7 +59,7 @@
 
 <div class={classes()} {...restProps}>
 	{#each toasts as toast (toast.id)}
-		<div class="alert{toast.type ? ` alert-${toast.type}` : ''}" role="alert">
+		<div class="alert{toast.type === 'info' ? ' alert-info' : toast.type === 'success' ? ' alert-success' : toast.type === 'warning' ? ' alert-warning' : toast.type === 'error' ? ' alert-error' : ''}" role="alert">
 			<span>{toast.message}</span>
 			{#if toast.dismissible}
 				<button 

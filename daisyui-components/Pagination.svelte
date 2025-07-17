@@ -29,7 +29,12 @@
 	let buttonClasses = $derived(() => {
 		let result = 'join-item btn';
 		
-		if (size) result += ` btn-${size}`;
+		// Size classes
+		if (size === 'xs') result += ' btn-xs';
+		if (size === 'sm') result += ' btn-sm';
+		if (size === 'md') result += ' btn-md';
+		if (size === 'lg') result += ' btn-lg';
+		if (size === 'xl') result += ' btn-xl';
 		
 		return result;
 	});
@@ -62,7 +67,8 @@
 	<!-- Page numbers -->
 	{#each pages as page}
 		<button 
-			class="{buttonClasses()}{page === currentPage ? ' btn-active' : ''}"
+			class={buttonClasses()}
+			class:btn-active={page === currentPage}
 			onclick={() => goToPage(page)}
 		>
 			{page}

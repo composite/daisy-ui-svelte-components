@@ -31,7 +31,12 @@
 		if (variant === 'bordered') result += ' tabs-bordered';
 		if (variant === 'lifted') result += ' tabs-lifted';
 		if (variant === 'boxed') result += ' tabs-boxed';
-		if (size) result += ` tabs-${size}`;
+		// Size classes
+		if (size === 'xs') result += ' tabs-xs';
+		if (size === 'sm') result += ' tabs-sm';
+		if (size === 'md') result += ' tabs-md';
+		if (size === 'lg') result += ' tabs-lg';
+		if (size === 'xl') result += ' tabs-xl';
 		if (className) result += ` ${className}`;
 		
 		return result;
@@ -54,7 +59,9 @@
 		{#each tabs as tab}
 			<button 
 				role="tab" 
-				class="tab{activeTab === tab.id ? ' tab-active' : ''}{tab.disabled ? ' tab-disabled' : ''}"
+				class="tab"
+				class:tab-active={activeTab === tab.id}
+				class:tab-disabled={tab.disabled}
 				disabled={tab.disabled}
 				onclick={() => handleTabChange(tab.id, tab.disabled)}
 			>

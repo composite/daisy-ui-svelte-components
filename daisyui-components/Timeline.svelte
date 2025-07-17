@@ -39,17 +39,17 @@
 	{#each items as item (item.id)}
 		<li>
 			{#if item.startContent}
-				<div class="timeline-start{item.box ? ' timeline-box' : ''}">
+				<div class:timeline-box={item.box} class="timeline-start">
 					{@render item.startContent()}
 				</div>
 			{/if}
 			{#if item.middleContent}
-				<div class="timeline-middle{item.snapIcon ? ' timeline-snap-icon' : ''}">
+				<div class:timeline-snap-icon={item.snapIcon} class="timeline-middle">
 					{@render item.middleContent()}
 				</div>
 			{/if}
 			{#if item.endContent}
-				<div class="timeline-end{item.box ? ' timeline-box' : ''}">
+				<div class:timeline-box={item.box} class="timeline-end">
 					{@render item.endContent()}
 				</div>
 			{/if}

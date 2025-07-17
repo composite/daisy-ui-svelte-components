@@ -23,8 +23,23 @@
 	let classes = $derived(() => {
 		let result = 'checkbox';
 		
-		if (variant) result += ` checkbox-${variant}`;
-		if (size) result += ` checkbox-${size}`;
+		// Variant classes
+		if (variant === 'primary') result += ' checkbox-primary';
+		if (variant === 'secondary') result += ' checkbox-secondary';
+		if (variant === 'accent') result += ' checkbox-accent';
+		if (variant === 'neutral') result += ' checkbox-neutral';
+		if (variant === 'info') result += ' checkbox-info';
+		if (variant === 'success') result += ' checkbox-success';
+		if (variant === 'warning') result += ' checkbox-warning';
+		if (variant === 'error') result += ' checkbox-error';
+		
+		// Size classes
+		if (size === 'xs') result += ' checkbox-xs';
+		if (size === 'sm') result += ' checkbox-sm';
+		if (size === 'md') result += ' checkbox-md';
+		if (size === 'lg') result += ' checkbox-lg';
+		if (size === 'xl') result += ' checkbox-xl';
+		
 		if (className) result += ` ${className}`;
 		
 		return result;
