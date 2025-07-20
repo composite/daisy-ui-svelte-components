@@ -7,21 +7,14 @@
 		end?: any;
 	}
 
-	let {
-		sticky = false,
-		class: className,
-		start,
-		center,
-		end,
-		...restProps
-	}: Props = $props();
+	let { sticky = false, class: className, start, center, end, ...restProps }: Props = $props();
 
 	let classes = $derived(() => {
 		let result = 'navbar';
-		
+
 		if (sticky) result += ' sticky top-0 z-30';
 		if (className) result += ` ${className}`;
-		
+
 		return result;
 	});
 </script>

@@ -5,22 +5,17 @@
 		children?: any;
 	}
 
-	let {
-		align,
-		class: className,
-		children,
-		...restProps
-	}: Props = $props();
+	let { align, class: className, children, ...restProps }: Props = $props();
 
 	let classes = $derived(() => {
 		let result = 'stack';
-		
+
 		if (align === 'top') result += ' stack-top';
 		if (align === 'bottom') result += ' stack-bottom';
 		if (align === 'start') result += ' stack-start';
 		if (align === 'end') result += ' stack-end';
 		if (className) result += ` ${className}`;
-		
+
 		return result;
 	});
 </script>

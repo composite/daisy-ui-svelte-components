@@ -16,11 +16,11 @@
 
 	let classes = $derived(() => {
 		let result = 'footer';
-		
+
 		if (direction === 'horizontal') result += ' footer-horizontal';
 		if (center) result += ' footer-center';
 		if (className) result += ` ${className}`;
-		
+
 		return result;
 	});
 </script>

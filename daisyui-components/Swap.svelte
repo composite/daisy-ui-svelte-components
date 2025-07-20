@@ -22,12 +22,12 @@
 
 	let classes = $derived(() => {
 		let result = 'swap';
-		
+
 		if (rotate) result += ' swap-rotate';
 		if (flip) result += ' swap-flip';
 		if (active) result += ' swap-active';
 		if (className) result += ` ${className}`;
-		
+
 		return result;
 	});
 
@@ -39,13 +39,13 @@
 
 <label class={classes()} {...restProps}>
 	<input type="checkbox" bind:checked={active} onchange={handleChange} />
-	
+
 	{#if onIcon}
 		<div class="swap-on">
 			{@render onIcon()}
 		</div>
 	{/if}
-	
+
 	{#if offIcon}
 		<div class="swap-off">
 			{@render offIcon()}

@@ -6,21 +6,15 @@
 		class?: string;
 	}
 
-	let {
-		value,
-		size,
-		font,
-		class: className,
-		...restProps
-	}: Props = $props();
+	let { value, size, font, class: className, ...restProps }: Props = $props();
 
 	let classes = $derived(() => {
 		let result = 'countdown';
-		
+
 		if (size) result += ` text-${size}`;
 		if (font) result += ` font-${font}`;
 		if (className) result += ` ${className}`;
-		
+
 		return result;
 	});
 </script>

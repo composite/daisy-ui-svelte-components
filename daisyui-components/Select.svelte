@@ -1,98 +1,50 @@
-<script lang="ts">
-	interface Option {
-		value: string | number;
-		label: string;
-		disabled?: boolean;
-	}
+<script lang="ts" module>
+	import type { SvelteHTMLElements } from 'svelte/elements';
+	import type { RefElement } from '$components/ui/index';
 
-	interface Props {
-		options: Option[];
-		value?: string | number;
-		placeholder?: string;
-		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-		color?: 'neutral' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
+	const colors = {
+		neutral: 'select-neutral',
+		primary: 'select-primary',
+		secondary: 'select-secondary',
+		accent: 'select-accent',
+		info: 'select-info',
+		success: 'select-success',
+		warning: 'select-warning',
+		error: 'select-error'
+	} as const;
+	const sizes = {
+		xs: 'select-xs',
+		sm: 'select-sm',
+		md: 'select-md',
+		lg: 'select-lg',
+		xl: 'select-xl'
+	} as const;
+	type Props = SvelteHTMLElements['select'] & {
+		color?: keyof typeof colors;
+		size?: keyof typeof sizes;
 		ghost?: boolean;
-		disabled?: boolean;
-		required?: boolean;
-		multiple?: boolean;
-		class?: string;
-	}
+	} & RefElement<HTMLSelectElement>;
+</script>
+
+<script lang="ts">
+	import { cn } from '$lib/utils/doms';
 
 	let {
-		options,
 		value = $bindable(),
-		placeholder,
 		size,
 		color,
 		ghost = false,
-		disabled = false,
-		required = false,
-		multiple = false,
 		class: className,
+		ref = $bindable(null),
+		children,
 		...restProps
 	}: Props = $props();
 
-	let classes = $derived(() => {
-		let result = 'select';
-		
-		if (ghost) result += ' select-ghost';
-		
-		// Size classes
-		if (size === 'xs') result += ' select-xs';
-		if (size === 'sm') result += ' select-sm';
-		if (size === 'md') result += ' select-md';
-		if (size === 'lg') result += ' select-lg';
-		if (size === 'xl') result += ' select-xl';
-		
-		// Color classes
-		if (color === 'neutral') result += ' select-neutral';
-		if (color === 'primary') result += ' select-primary';
-		if (color === 'secondary') result += ' select-secondary';
-		if (color === 'accent') result += ' select-accent';
-		if (color === 'info') result += ' select-info';
-		if (color === 'success') result += ' select-success';
-		if (color === 'warning') result += ' select-warning';
-		if (color === 'error') result += ' select-error';
-		
-		if (className) result += ` ${className}`;
-		
-		return result;
-	});
+	let classes = $derived(
+		cn('select', ghost && 'select-ghost', color && colors[color], size && sizes[size], className)
+	);
 </script>
 
-{#if multiple}
-  <select
-    bind:value
-    {disabled}
-    {required}
-    multiple
-    class={classes()}
-    {...restProps}
-  >
-    {#if placeholder && !multiple}
-      <option value="" disabled selected={!value}>{placeholder}</option>
-    {/if}
-    {#each options as option (option.value)}
-      <option value={option.value} disabled={option.disabled}>
-        {option.label}
-      </option>
-    {/each}
-  </select>
-{:else}
-  <select
-    bind:value
-    {disabled}
-    {required}
-    class={classes()}
-    {...restProps}
-  >
-    {#if placeholder && !multiple}
-      <option value="" disabled selected={!value}>{placeholder}</option>
-    {/if}
-    {#each options as option (option.value)}
-      <option value={option.value} disabled={option.disabled}>
-        {option.label}
-      </option>
-    {/each}
-  </select>
-{/if}
+<select bind:value class={classes} bind:this={ref} {...restProps}>
+	{children?.()}
+</select>

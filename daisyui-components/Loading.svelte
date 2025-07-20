@@ -1,29 +1,42 @@
+<script lang="ts" module>
+	import type { SvelteHTMLElements } from 'svelte/elements';
+	import type { RefElement } from '$components/ui/index';
+
+	const variants = {
+		spinner: 'loading-spinner',
+		dots: 'loading-dots',
+		ring: 'loading-ring',
+		ball: 'loading-ball',
+		bars: 'loading-bars',
+		infinity: 'loading-infinity'
+	} as const;
+	const sizes = {
+		xs: 'loading-xs',
+		sm: 'loading-sm',
+		md: 'loading-md',
+		lg: 'loading-lg',
+		xl: 'loading-xl'
+	} as const;
+	type Props = Omit<SvelteHTMLElements['span'], 'children'> & {
+		variant?: keyof typeof variants;
+		size?: keyof typeof sizes;
+	} & RefElement<HTMLSpanElement>;
+</script>
+
 <script lang="ts">
-	interface Props {
-		type?: 'spinner' | 'dots' | 'ring' | 'ball' | 'bars' | 'infinity';
-		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-		color?: 'neutral' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
-		class?: string;
-	}
+	import { cn } from '$lib/utils/doms';
 
 	let {
-		type = 'spinner',
+		variant = 'spinner',
 		size,
-		color,
 		class: className,
+		ref = $bindable(null),
 		...restProps
 	}: Props = $props();
 
-	let classes = $derived(() => {
-		let result = 'loading';
-		
-		if (type) result += ` loading-${type}`;
-		if (size) result += ` loading-${size}`;
-		if (color) result += ` text-${color}`;
-		if (className) result += ` ${className}`;
-		
-		return result;
-	});
+	let classes = $derived(
+		cn('loading', variant && variants[variant], size && sizes[size], className)
+	);
 </script>
 
-<span class={classes()} {...restProps}></span>
+<span class={classes} bind:this={ref} {...restProps}></span>

@@ -20,10 +20,10 @@
 
 	let classes = $derived(() => {
 		let result = 'drawer';
-		
+
 		if (side) result += ` drawer-${side}`;
 		if (className) result += ` ${className}`;
-		
+
 		return result;
 	});
 </script>

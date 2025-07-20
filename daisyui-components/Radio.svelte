@@ -1,60 +1,43 @@
+<script lang="ts" module>
+	import type { SvelteHTMLElements } from 'svelte/elements';
+	import type { RefElement } from '$components/ui/index';
+
+	const colors = {
+		neutral: 'radio-neutral',
+		primary: 'radio-primary',
+		secondary: 'radio-secondary',
+		accent: 'radio-accent',
+		info: 'radio-info',
+		success: 'radio-success',
+		warning: 'radio-warning',
+		error: 'radio-error'
+	} as const;
+	const sizes = {
+		xs: 'radio-xs',
+		sm: 'radio-sm',
+		md: 'radio-md',
+		lg: 'radio-lg',
+		xl: 'radio-xl'
+	} as const;
+	type Props = Omit<SvelteHTMLElements['input'], 'type'> & {
+		color?: keyof typeof colors;
+		size?: keyof typeof sizes;
+	} & RefElement<HTMLInputElement>;
+</script>
+
 <script lang="ts">
-	interface Props {
-		name: string;
-		value: string | number;
-		checked?: boolean;
-		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-		color?: 'neutral' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
-		disabled?: boolean;
-		required?: boolean;
-		class?: string;
-	}
+	import { cn } from '$lib/utils/doms';
 
 	let {
-		name,
-		value,
-		checked = $bindable(),
+		group = $bindable(),
 		size,
 		color,
-		disabled = false,
-		required = false,
 		class: className,
+		ref = $bindable(null),
 		...restProps
 	}: Props = $props();
 
-	let classes = $derived(() => {
-		let result = 'radio';
-		
-		// Size classes
-		if (size === 'xs') result += ' radio-xs';
-		if (size === 'sm') result += ' radio-sm';
-		if (size === 'md') result += ' radio-md';
-		if (size === 'lg') result += ' radio-lg';
-		if (size === 'xl') result += ' radio-xl';
-		
-		// Color classes
-		if (color === 'neutral') result += ' radio-neutral';
-		if (color === 'primary') result += ' radio-primary';
-		if (color === 'secondary') result += ' radio-secondary';
-		if (color === 'accent') result += ' radio-accent';
-		if (color === 'info') result += ' radio-info';
-		if (color === 'success') result += ' radio-success';
-		if (color === 'warning') result += ' radio-warning';
-		if (color === 'error') result += ' radio-error';
-		
-		if (className) result += ` ${className}`;
-		
-		return result;
-	});
+	let classes = $derived(cn('radio', color && colors[color], size && sizes[size], className));
 </script>
 
-<input
-	type="radio"
-	{name}
-	{value}
-	checked={checked}
-	{disabled}
-	{required}
-	class={classes()}
-	{...restProps}
-/>
+<input type="radio" bind:group class={classes} bind:this={ref} {...restProps} />

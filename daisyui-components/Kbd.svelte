@@ -1,27 +1,27 @@
-<script lang="ts">
-	interface Props {
-		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-		class?: string;
-		children?: any;
-	}
+<script lang="ts" module>
+	import type { SvelteHTMLElements } from 'svelte/elements';
+	import type { RefElement } from '$components/ui/index';
 
-	let {
-		size,
-		class: className,
-		children,
-		...restProps
-	}: Props = $props();
-
-	let classes = $derived(() => {
-		let result = 'kbd';
-		
-		if (size) result += ` kbd-${size}`;
-		if (className) result += ` ${className}`;
-		
-		return result;
-	});
+	const sizes = {
+		xs: 'kbd-xs',
+		sm: 'kbd-sm',
+		md: 'kbd-md',
+		lg: 'kbd-lg',
+		xl: 'kbd-xl'
+	} as const;
+	type Props = SvelteHTMLElements['kbd'] & {
+		size?: keyof typeof sizes;
+	} & RefElement;
 </script>
 
-<kbd class={classes()} {...restProps}>
+<script lang="ts">
+	import { cn } from '$lib/utils/doms';
+
+	let { size, class: className, children, ref = $bindable(null), ...restProps }: Props = $props();
+
+	let classes = $derived(cn('kbd', size && sizes[size], className));
+</script>
+
+<kbd class={classes} bind:this={ref} {...restProps}>
 	{@render children?.()}
 </kbd>

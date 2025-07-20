@@ -16,12 +16,12 @@
 
 	let classes = $derived(() => {
 		let result = 'skeleton';
-		
+
 		result += ` ${width} ${height}`;
-		
+
 		if (shape === 'circle') result += ' rounded-full';
 		if (className) result += ` ${className}`;
-		
+
 		return result;
 	});
 </script>

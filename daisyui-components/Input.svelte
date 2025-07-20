@@ -1,47 +1,47 @@
-<script lang="ts">
-	interface Props {
-		type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search';
-		placeholder?: string;
-		value?: string | number;
-		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-		color?: 'neutral' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
+<script lang="ts" module>
+	import type { SvelteHTMLElements } from 'svelte/elements';
+	import type { RefElement } from '$components/ui/index';
+
+	const colors = {
+		neutral: 'input-neutral',
+		primary: 'input-primary',
+		secondary: 'input-secondary',
+		accent: 'input-accent',
+		info: 'input-info',
+		success: 'input-success',
+		warning: 'input-warning',
+		error: 'input-error'
+	} as const;
+	const sizes = {
+		xs: 'input-xs',
+		sm: 'input-sm',
+		md: 'input-md',
+		lg: 'input-lg',
+		xl: 'input-xl'
+	} as const;
+	type Props = SvelteHTMLElements['input'] & {
+		color?: keyof typeof colors;
+		size?: keyof typeof sizes;
 		ghost?: boolean;
-		disabled?: boolean;
-		required?: boolean;
-		class?: string;
-	}
+	} & RefElement<HTMLInputElement>;
+</script>
+
+<script lang="ts">
+	import { cn } from '$lib/utils/doms';
 
 	let {
 		type = 'text',
-		placeholder,
 		value = $bindable(),
 		size,
 		color,
 		ghost = false,
-		disabled = false,
-		required = false,
 		class: className,
 		...restProps
 	}: Props = $props();
 
-	let classes = $derived(() => {
-		let result = 'input';
-		
-		if (ghost) result += ' input-ghost';
-		if (size) result += ` input-${size}`;
-		if (color) result += ` input-${color}`;
-		if (className) result += ` ${className}`;
-		
-		return result;
-	});
+	let classes = $derived(
+		cn('input', ghost && 'input-ghost', color && colors[color], size && sizes[size], className)
+	);
 </script>
 
-<input
-	{type}
-	{placeholder}
-	bind:value
-	{disabled}
-	{required}
-	class={classes()}
-	{...restProps}
-/>
+<input {type} bind:value class={classes} {...restProps} />

@@ -22,13 +22,13 @@
 
 	let classes = $derived(() => {
 		let result = 'dropdown';
-		
+
 		if (position) result += ` dropdown-${position}`;
 		if (align) result += ` dropdown-${align}`;
 		if (hover) result += ' dropdown-hover';
 		if (open) result += ' dropdown-open';
 		if (className) result += ` ${className}`;
-		
+
 		return result;
 	});
 </script>

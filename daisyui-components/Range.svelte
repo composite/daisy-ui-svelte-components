@@ -1,45 +1,36 @@
-<script lang="ts">
-	interface Props {
-		min?: number;
-		max?: number;
-		step?: number;
-		value?: number;
-		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-		color?: 'neutral' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
-		disabled?: boolean;
-		class?: string;
-	}
+<script lang="ts" module>
+	import type { SvelteHTMLElements } from 'svelte/elements';
+	import type { RefElement } from '$components/ui/index';
 
-	let {
-		min = 0,
-		max = 100,
-		step = 1,
-		value = $bindable(),
-		size,
-		color,
-		disabled = false,
-		class: className,
-		...restProps
-	}: Props = $props();
-
-	let classes = $derived(() => {
-		let result = 'range';
-		
-		if (size) result += ` range-${size}`;
-		if (color) result += ` range-${color}`;
-		if (className) result += ` ${className}`;
-		
-		return result;
-	});
+	const colors = {
+		neutral: 'range-neutral',
+		primary: 'range-primary',
+		secondary: 'range-secondary',
+		accent: 'range-accent',
+		info: 'range-info',
+		success: 'range-success',
+		warning: 'range-warning',
+		error: 'range-error'
+	} as const;
+	const sizes = {
+		xs: 'range-xs',
+		sm: 'range-sm',
+		md: 'range-md',
+		lg: 'range-lg',
+		xl: 'range-xl'
+	} as const;
+	type Props = Omit<SvelteHTMLElements['input'], 'type'> & {
+		color?: keyof typeof colors;
+		size?: keyof typeof sizes;
+	} & RefElement<HTMLInputElement>;
 </script>
 
-<input
-	type="range"
-	{min}
-	{max}
-	{step}
-	bind:value
-	{disabled}
-	class={classes()}
-	{...restProps}
-/>
+<script lang="ts">
+	import { cn } from '$lib/utils/doms';
+
+	let { size, color, class: className, ref = $bindable(null), ...restProps }: Props = $props();
+
+	let classes = $derived(cn('range', color && colors[color], size && sizes[size], className));
+</script>
+
+<input type="range" class={classes} bind:this={ref} {...restProps} />

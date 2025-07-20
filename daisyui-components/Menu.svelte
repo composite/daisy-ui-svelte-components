@@ -6,22 +6,16 @@
 		children?: any;
 	}
 
-	let {
-		size,
-		direction = 'vertical',
-		class: className,
-		children,
-		...restProps
-	}: Props = $props();
+	let { size, direction = 'vertical', class: className, children, ...restProps }: Props = $props();
 
 	let classes = $derived(() => {
 		let result = 'menu';
-		
+
 		if (size) result += ` menu-${size}`;
 		if (direction === 'horizontal') result += ' menu-horizontal';
 		else result += ' menu-vertical';
 		if (className) result += ` ${className}`;
-		
+
 		return result;
 	});
 </script>

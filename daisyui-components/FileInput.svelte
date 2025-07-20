@@ -1,53 +1,46 @@
-<script lang="ts">
-	interface Props {
-		variant?: 'primary' | 'secondary' | 'accent' | 'neutral' | 'info' | 'success' | 'warning' | 'error';
-		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+<script lang="ts" module>
+	import type { SvelteHTMLElements } from 'svelte/elements';
+	import type { RefElement } from '$components/ui/index';
+
+	const colors = {
+		neutral: 'file-input-neutral',
+		primary: 'file-input-primary',
+		secondary: 'file-input-secondary',
+		accent: 'file-input-accent',
+		info: 'file-input-info',
+		success: 'file-input-success',
+		warning: 'file-input-warning',
+		error: 'file-input-error'
+	} as const;
+	const sizes = {
+		xs: 'file-input-xs',
+		sm: 'file-input-sm',
+		md: 'file-input-md',
+		lg: 'file-input-lg',
+		xl: 'file-input-xl'
+	} as const;
+	type Props = Omit<SvelteHTMLElements['input'], 'type'> & {
+		color?: keyof typeof colors;
+		size?: keyof typeof sizes;
 		ghost?: boolean;
-		disabled?: boolean;
-		multiple?: boolean;
-		accept?: string;
-		class?: string;
-		files?: FileList;
-		onchange?: (files: FileList | null) => void;
-	}
+	} & RefElement<HTMLInputElement>;
+</script>
+
+<script lang="ts">
+	import { cn } from '$lib/utils/doms';
 
 	let {
-		variant,
-		size,
-		ghost = false,
-		disabled = false,
-		multiple = false,
-		accept,
-		class: className,
 		files = $bindable(),
-		onchange,
+		size,
+		color,
+		ghost = false,
+		class: className,
 		...restProps
 	}: Props = $props();
 
-	let classes = $derived(() => {
-		let result = 'file-input';
-		
-		if (variant) result += ` file-input-${variant}`;
-		if (size) result += ` file-input-${size}`;
-		if (ghost) result += ' file-input-ghost';
-		if (className) result += ` ${className}`;
-		
-		return result;
-	});
-
-	function handleChange(event: Event) {
-		const input = event.target as HTMLInputElement;
-		files = input.files;
-		onchange?.(input.files);
-	}
+	let classes = $derived(
+		cn('input', ghost && 'file-input-ghost', color && colors[color], size && sizes[size], className)
+	);
 </script>
 
-<input 
-	type="file" 
-	class={classes()} 
-	{disabled}
-	{multiple}
-	{accept}
-	onchange={handleChange}
-	{...restProps} 
-/>
+<input type="file" bind:files class={classes} {...restProps} />

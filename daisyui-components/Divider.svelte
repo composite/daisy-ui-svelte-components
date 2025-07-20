@@ -2,7 +2,15 @@
 	interface Props {
 		orientation?: 'horizontal' | 'vertical';
 		position?: 'start' | 'end';
-		color?: 'neutral' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
+		color?:
+			| 'neutral'
+			| 'primary'
+			| 'secondary'
+			| 'accent'
+			| 'info'
+			| 'success'
+			| 'warning'
+			| 'error';
 		text?: string;
 		class?: string;
 		children?: any;
@@ -20,14 +28,14 @@
 
 	let classes = $derived(() => {
 		let result = 'divider';
-		
+
 		if (orientation === 'vertical') result += ' divider-vertical';
 		if (orientation === 'horizontal') result += ' divider-horizontal';
 		if (position === 'start') result += ' divider-start';
 		if (position === 'end') result += ' divider-end';
 		if (color) result += ` divider-${color}`;
 		if (className) result += ` ${className}`;
-		
+
 		return result;
 	});
 </script>

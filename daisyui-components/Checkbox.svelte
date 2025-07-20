@@ -1,61 +1,53 @@
+<script lang="ts" module>
+	import type { SvelteHTMLElements } from 'svelte/elements';
+	import type { RefElement } from '$components/ui/index';
+
+	const colors = {
+		primary: 'checkbox-primary',
+		secondary: 'checkbox-secondary',
+		accent: 'checkbox-accent',
+		neutral: 'checkbox-neutral',
+		info: 'checkbox-info',
+		success: 'checkbox-success',
+		warning: 'checkbox-warning',
+		error: 'checkbox-error'
+	} as const;
+	const sizes = {
+		xs: 'checkbox-xs',
+		sm: 'checkbox-sm',
+		md: 'checkbox-md',
+		lg: 'checkbox-lg',
+		xl: 'checkbox-xl'
+	} as const;
+	type Props = Omit<SvelteHTMLElements['input'], 'type'> & {
+		color?: keyof typeof colors;
+		size?: keyof typeof sizes;
+	} & RefElement<HTMLInputElement>;
+</script>
+
 <script lang="ts">
-	interface Props {
-		checked?: boolean;
-		variant?: 'primary' | 'secondary' | 'accent' | 'neutral' | 'info' | 'success' | 'warning' | 'error';
-		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-		disabled?: boolean;
-		indeterminate?: boolean;
-		class?: string;
-		onchange?: (checked: boolean) => void;
-	}
+	import { cn } from '$lib/utils/doms';
 
 	let {
-		checked = $bindable(false),
-		variant,
+		color,
 		size,
-		disabled = false,
-		indeterminate = false,
+		checked = $bindable(),
+		group = $bindable(),
+		indeterminate = $bindable(),
 		class: className,
-		onchange,
+		ref = $bindable(null),
 		...restProps
 	}: Props = $props();
 
-	let classes = $derived(() => {
-		let result = 'checkbox';
-		
-		// Variant classes
-		if (variant === 'primary') result += ' checkbox-primary';
-		if (variant === 'secondary') result += ' checkbox-secondary';
-		if (variant === 'accent') result += ' checkbox-accent';
-		if (variant === 'neutral') result += ' checkbox-neutral';
-		if (variant === 'info') result += ' checkbox-info';
-		if (variant === 'success') result += ' checkbox-success';
-		if (variant === 'warning') result += ' checkbox-warning';
-		if (variant === 'error') result += ' checkbox-error';
-		
-		// Size classes
-		if (size === 'xs') result += ' checkbox-xs';
-		if (size === 'sm') result += ' checkbox-sm';
-		if (size === 'md') result += ' checkbox-md';
-		if (size === 'lg') result += ' checkbox-lg';
-		if (size === 'xl') result += ' checkbox-xl';
-		
-		if (className) result += ` ${className}`;
-		
-		return result;
-	});
-
-	function handleChange() {
-		onchange?.(checked);
-	}
+	let classes = $derived(cn('checkbox', color && colors[color], size && sizes[size], className));
 </script>
 
-<input 
-	type="checkbox" 
-	bind:checked 
-	{disabled}
-	{indeterminate}
-	class={classes()} 
-	onchange={handleChange}
-	{...restProps} 
+<input
+	type="checkbox"
+	class={classes}
+	bind:checked
+	bind:group
+	bind:indeterminate
+	bind:this={ref}
+	{...restProps}
 />

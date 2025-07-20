@@ -5,18 +5,13 @@
 		item2?: any;
 	}
 
-	let {
-		class: className,
-		item1,
-		item2,
-		...restProps
-	}: Props = $props();
+	let { class: className, item1, item2, ...restProps }: Props = $props();
 
 	let classes = $derived(() => {
 		let result = 'diff';
-		
+
 		if (className) result += ` ${className}`;
-		
+
 		return result;
 	});
 </script>

@@ -24,18 +24,18 @@
 
 	let classes = $derived(() => {
 		let result = 'stat';
-		
+
 		if (className) result += ` ${className}`;
-		
+
 		return result;
 	});
 
 	let containerClasses = $derived(() => {
 		let result = 'stats';
-		
+
 		if (direction === 'vertical') result += ' stats-vertical';
 		if (direction === 'horizontal') result += ' stats-horizontal';
-		
+
 		return result;
 	});
 </script>

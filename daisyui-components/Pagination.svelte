@@ -20,22 +20,22 @@
 
 	let classes = $derived(() => {
 		let result = 'join';
-		
+
 		if (className) result += ` ${className}`;
-		
+
 		return result;
 	});
 
 	let buttonClasses = $derived(() => {
 		let result = 'join-item btn';
-		
+
 		// Size classes
 		if (size === 'xs') result += ' btn-xs';
 		if (size === 'sm') result += ' btn-sm';
 		if (size === 'md') result += ' btn-md';
 		if (size === 'lg') result += ' btn-lg';
 		if (size === 'xl') result += ' btn-xl';
-		
+
 		return result;
 	});
 
@@ -43,7 +43,7 @@
 		const start = Math.max(1, currentPage - Math.floor(showPages / 2));
 		const end = Math.min(totalPages, start + showPages - 1);
 		const adjustedStart = Math.max(1, end - showPages + 1);
-		
+
 		return Array.from({ length: end - adjustedStart + 1 }, (_, i) => adjustedStart + i);
 	});
 
@@ -56,7 +56,7 @@
 
 <div class={classes()} {...restProps}>
 	<!-- Previous button -->
-	<button 
+	<button
 		class={buttonClasses()}
 		disabled={currentPage === 1}
 		onclick={() => goToPage(currentPage - 1)}
@@ -65,8 +65,8 @@
 	</button>
 
 	<!-- Page numbers -->
-	{#each pages as page}
-		<button 
+	{#each pages() as page (page)}
+		<button
 			class={buttonClasses()}
 			class:btn-active={page === currentPage}
 			onclick={() => goToPage(page)}
@@ -76,7 +76,7 @@
 	{/each}
 
 	<!-- Next button -->
-	<button 
+	<button
 		class={buttonClasses()}
 		disabled={currentPage === totalPages}
 		onclick={() => goToPage(currentPage + 1)}

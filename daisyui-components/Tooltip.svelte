@@ -2,7 +2,15 @@
 	interface Props {
 		text: string;
 		position?: 'top' | 'bottom' | 'left' | 'right';
-		color?: 'neutral' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
+		color?:
+			| 'neutral'
+			| 'primary'
+			| 'secondary'
+			| 'accent'
+			| 'info'
+			| 'success'
+			| 'warning'
+			| 'error';
 		open?: boolean;
 		class?: string;
 		children?: any;
@@ -20,12 +28,12 @@
 
 	let classes = $derived(() => {
 		let result = 'tooltip';
-		
+
 		if (position) result += ` tooltip-${position}`;
 		if (color) result += ` tooltip-${color}`;
 		if (open) result += ' tooltip-open';
 		if (className) result += ` ${className}`;
-		
+
 		return result;
 	});
 </script>

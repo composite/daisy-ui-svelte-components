@@ -1,53 +1,53 @@
-<script lang="ts">
-	interface Props {
-		placeholder?: string;
-		value?: string;
-		rows?: number;
-		cols?: number;
-		size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-		color?: 'neutral' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
+<script lang="ts" module>
+	import type { SvelteHTMLElements } from 'svelte/elements';
+	import type { RefElement } from '$components/ui/index';
+
+	const colors = {
+		neutral: 'textarea-neutral',
+		primary: 'textarea-primary',
+		secondary: 'textarea-secondary',
+		accent: 'textarea-accent',
+		info: 'textarea-info',
+		success: 'textarea-success',
+		warning: 'textarea-warning',
+		error: 'textarea-error'
+	} as const;
+	const sizes = {
+		xs: 'textarea-xs',
+		sm: 'textarea-sm',
+		md: 'textarea-md',
+		lg: 'textarea-lg',
+		xl: 'textarea-xl'
+	} as const;
+	type Props = SvelteHTMLElements['textarea'] & {
+		color?: keyof typeof colors;
+		size?: keyof typeof sizes;
 		ghost?: boolean;
-		disabled?: boolean;
-		required?: boolean;
-		resize?: boolean;
-		class?: string;
-	}
+	} & RefElement<HTMLTextAreaElement>;
+</script>
+
+<script lang="ts">
+	import { cn } from '$lib/utils/doms';
 
 	let {
-		placeholder,
 		value = $bindable(),
-		rows,
-		cols,
 		size,
 		color,
 		ghost = false,
-		disabled = false,
-		required = false,
-		resize = true,
 		class: className,
+		ref = $bindable(null),
 		...restProps
 	}: Props = $props();
 
-	let classes = $derived(() => {
-		let result = 'textarea';
-		
-		if (ghost) result += ' textarea-ghost';
-		if (size) result += ` textarea-${size}`;
-		if (color) result += ` textarea-${color}`;
-		if (!resize) result += ' resize-none';
-		if (className) result += ` ${className}`;
-		
-		return result;
-	});
+	let classes = $derived(
+		cn(
+			'textarea',
+			ghost && 'textarea-ghost',
+			color && colors[color],
+			size && sizes[size],
+			className
+		)
+	);
 </script>
 
-<textarea
-	{placeholder}
-	bind:value
-	{rows}
-	{cols}
-	{disabled}
-	{required}
-	class={classes()}
-	{...restProps}
-></textarea>
+<textarea bind:value class={classes} bind:this={ref} {...restProps}></textarea>
